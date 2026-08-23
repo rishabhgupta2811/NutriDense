@@ -7,7 +7,7 @@ import { CartContext } from "../context/CartContext";
 import { FiMapPin, FiShield, FiTruck } from "react-icons/fi";
 
 function Checkout() {
-  const { cartItems } = useContext(CartContext);
+  const { cartItems, clearCart } = useContext(CartContext);
   const navigate = useNavigate();
   const [paymentMethod, setPaymentMethod] = useState("cod");
   const [coupon, setCoupon] = useState("");
@@ -16,6 +16,12 @@ function Checkout() {
   const delivery = 0;
   const discount = subtotal>3000?200:0;
   const total = subtotal-discount+delivery;
+  const handlePlaceOrder = () => {
+  // Order has been successfully placed
+  clearCart();
+
+  navigate("/order-success");
+};
 
   return (
     <>
@@ -97,7 +103,8 @@ function Checkout() {
               <div className="flex justify-between text-2xl font-bold"><span>Total</span><span className="text-green-700">₹{total}</span></div>
               <div className="bg-green-50 rounded-xl p-4 flex gap-3 mt-5"><FiTruck/><div><p className="font-semibold">Estimated Delivery</p><p className="text-sm">3–5 business days</p></div></div>
               <div className="bg-blue-50 rounded-xl p-4 flex gap-3 mt-4"><FiShield/><div><p className="font-semibold">100% Secure Checkout</p><p className="text-sm">Protected payment</p></div></div>
-              <button onClick={()=>navigate("/order-success")} className="w-full bg-green-700 text-white py-4 rounded-xl mt-6">Place Order</button>
+              
+              <button onClick={handlePlaceOrder} className="w-full bg-green-700 text-white py-4 rounded-xl mt-6">Place Order</button>
             </div>
           </div>
         </div>
